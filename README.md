@@ -20,31 +20,46 @@ AI 辅助开发的知识复用仓库 —— 收录技术栈模板、Prompt、MCP
 
 ```
 ai-dev-template/
-├── frontend/                    # 前端项目
-│   ├── tv/                      # TV端 (Android TV, Apple TV, Roku)
-│   │   ├── webview/             # Web 套壳方案 (WebView + H5)
-│   │   ├── native/              # 原生开发 (Android TV Leanback, tvOS)
-│   │   └── react/               # React 开发 (React Native for TV)
-│   ├── mobile/                  # 移动端 (iOS, Android, Flutter, React Native)
-│   ├── admin/                   # 后台管理系统 (Vue, React, Nuxt, Next.js)
-│   ├── landing/                 # 落地页 / 营销页
-│   ├── mini-program/            # 小程序 (微信、支付宝、抖音)
-│   └── desktop/                 # 桌面端 (Electron, Tauri)
-├── backend/                     # 后端项目
-│   ├── python/                  # Python 后端 (FastAPI, Django, Flask)
-│   └── node/                    # Node.js 后端 (Express, NestJS, Nitro)
-├── devops/                      # 部署运维 (Docker, CI/CD, Nginx)
-├── prompts/                     # Prompt 模板
-├── mcp/                         # MCP 配置模板
-├── skills/                      # Skills 配置模板
-└── README.md
+├── frontend/                          # 前端项目
+│   ├── tv/                            # TV 端
+│   │   ├── webview/vue/               # Web 套壳 + Vue 技术栈
+│   │   ├── native/                    # 原生开发 (Android TV Leanback, tvOS)
+│   │   └── reactnative/              # React Native for TV
+│   ├── mobile/                        # 移动端 (iOS, Android)
+│   ├── admin/                         # 后台管理系统
+│   ├── landing/                       # 落地页 / 营销页
+│   ├── mini-program/                  # 小程序 (微信、支付宝、抖音)
+│   └── desktop/                       # 桌面端 (Electron, Tauri)
+├── backend/                           # 后端项目
+│   ├── python/                        # Python (FastAPI, Django, Flask)
+│   └── node/                          # Node.js (Express, NestJS, Nitro)
+├── scripts/                           # 通用脚本工具
+├── devops/                            # 部署运维 (Docker, CI/CD, Nginx)
+├── prompts/                           # Prompt 模板
+├── mcp/                               # MCP 配置模板
+└── skills/                            # Skills 配置模板
 ```
 
 ## 已有文档
 
+### TV 端 — WebView + Vue
+
+| 文件 | 格式 | 说明 |
+|------|------|------|
+| [`frontend/tv/webview/vue/cursor.mdc`](frontend/tv/webview/vue/cursor.mdc) | Cursor | Android TV WebView 开发规则与踩坑记录 |
+| [`frontend/tv/webview/vue/CLAUDE.md`](frontend/tv/webview/vue/CLAUDE.md) | Claude Code | Android TV WebView 开发规则与踩坑记录 |
+
+### 后台管理
+
 | 文件 | 说明 |
 |------|------|
 | [`frontend/admin/nuxt-tech-selection.md`](frontend/admin/nuxt-tech-selection.md) | Nuxt.js 全栈管理后台技术选型方案 |
+
+### 通用脚本
+
+| 文件 | 说明 |
+|------|------|
+| [`scripts/vue-build-deploy.py`](scripts/vue-build-deploy.py) | Vue 项目一键打包部署脚本（打包 → 压缩 → SSH 上传 → 备份 → 解压覆盖） |
 
 ## 使用方式
 
