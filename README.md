@@ -16,11 +16,35 @@ AI 辅助开发的知识复用仓库 —— 收录技术栈模板、Prompt、MCP
 - **Cursor**
 - **Claude Code**
 
-## 目录说明
+## 目录结构
+
+```
+ai-dev-template/
+├── frontend/                    # 前端项目
+│   ├── tv/                      # TV端 (Android TV, Apple TV, Roku)
+│   │   ├── webview/             # Web 套壳方案 (WebView + H5)
+│   │   ├── native/              # 原生开发 (Android TV Leanback, tvOS)
+│   │   └── react/               # React 开发 (React Native for TV)
+│   ├── mobile/                  # 移动端 (iOS, Android, Flutter, React Native)
+│   ├── admin/                   # 后台管理系统 (Vue, React, Nuxt, Next.js)
+│   ├── landing/                 # 落地页 / 营销页
+│   ├── mini-program/            # 小程序 (微信、支付宝、抖音)
+│   └── desktop/                 # 桌面端 (Electron, Tauri)
+├── backend/                     # 后端项目
+│   ├── python/                  # Python 后端 (FastAPI, Django, Flask)
+│   └── node/                    # Node.js 后端 (Express, NestJS, Nitro)
+├── devops/                      # 部署运维 (Docker, CI/CD, Nginx)
+├── prompts/                     # Prompt 模板
+├── mcp/                         # MCP 配置模板
+├── skills/                      # Skills 配置模板
+└── README.md
+```
+
+## 已有文档
 
 | 文件 | 说明 |
 |------|------|
-| `nuxt-tech-selection.md` | Nuxt.js 全栈管理后台技术选型方案 |
+| [`frontend/admin/nuxt-tech-selection.md`](frontend/admin/nuxt-tech-selection.md) | Nuxt.js 全栈管理后台技术选型方案 |
 
 ## 使用方式
 
