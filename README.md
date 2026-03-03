@@ -55,6 +55,12 @@ ai-dev-template/
 |------|------|
 | [`frontend/admin/nuxt-tech-selection.md`](frontend/admin/nuxt-tech-selection.md) | Nuxt.js 全栈管理后台技术选型方案 |
 
+### Skills
+
+| 文件 | 说明 |
+|------|------|
+| [`skills/ui-ux-pro-max.md`](skills/ui-ux-pro-max.md) | UI UX Pro Max — AI 设计智能 Skill，生成专业级 UI/UX 设计系统（配色、字体、风格、图表） |
+
 ### 通用脚本
 
 | 文件 | 说明 |
