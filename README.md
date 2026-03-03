@@ -34,6 +34,7 @@ ai-dev-template/
 │   ├── python/                        # Python (FastAPI, Django, Flask)
 │   └── node/                          # Node.js (Express, NestJS, Nitro)
 ├── scripts/                           # 通用脚本工具
+├── docs/                              # 学习笔记与方法论
 ├── devops/                            # 部署运维 (Docker, CI/CD, Nginx)
 ├── prompts/                           # Prompt 模板
 ├── mcp/                               # MCP 配置模板
@@ -60,6 +61,12 @@ ai-dev-template/
 | 文件 | 说明 |
 |------|------|
 | [`skills/ui-ux-pro-max.md`](skills/ui-ux-pro-max.md) | UI UX Pro Max — AI 设计智能 Skill，生成专业级 UI/UX 设计系统（配色、字体、风格、图表） |
+
+### 学习笔记
+
+| 文件 | 说明 |
+|------|------|
+| [`docs/ai-engineering-compound-growth.md`](docs/ai-engineering-compound-growth.md) | AI 工程化实践：从规范约束到复合增长（上下文工程、Subagent 架构、经验沉淀） |
 
 ### 通用脚本
 
