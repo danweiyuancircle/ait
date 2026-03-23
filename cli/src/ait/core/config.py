@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Central repo location
-DEFAULT_REPO_URL = "https://github.com/danweiyuancircle/ai-dev-template.git"
+DEFAULT_REPO_URL = "https://github.com/danweiyuancircle/ait.git"
 DEFAULT_REPO_PATH = Path.home() / ".ai-dev-template"
 
 # Resource source directories (relative to repo root)
