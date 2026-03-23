@@ -1,34 +1,35 @@
 # AI Dev Template
 
-AI 辅助开发的知识复用仓库 —— 收录技术栈模板、Prompt、MCP 配置、Skills 以及日常项目开发中积累的经验文档。
-
-## 用途
-
-- **技术栈选型模板**：记录经过验证的技术栈组合方案，新项目可直接参考
-- **Prompt 模板**：沉淀高效的 AI 提示词，提升与 AI 协作的效率
-- **MCP / Skills 配置**：可复用的 MCP Server 和 Skills 配置，快速搭建 AI 开发环境
-- **经验文档**：项目开发中遇到的问题和解决方案，避免重复踩坑
+AI 辅助开发的知识复用仓库 —— 收录技术栈模板、Rules、Skills、MCP 配置，配套 `ait` CLI 工具实现跨机器、跨项目一键复用。
 
 ## ait CLI
 
-`ait` 是本仓库配套的 AI 开发配置管理 CLI 工具，用于在多台机器和多个项目之间统一管理 rules、skills、MCP 配置和 CLAUDE.md 模板。
+`ait` 是本仓库的核心工具，基于 **symlink 机制**管理所有 AI 开发配置：
+
+- 全局安装 rules/skills 到 `~/.claude/`，修改仓库后所有项目自动同步
+- 通过 profile 组合配置，一键为项目安装 rules + skills + 模板 + MCP
+- 换电脑只需 `ait install` + `ait sync` 即可恢复全部配置
 
 ### 安装
 
 ```bash
+# 需要 Python 3.10+ 和 uv
 cd cli && uv tool install .
 ```
 
 ### 快速上手
 
 ```bash
-# 1. 克隆仓库到 ~/.ai-dev-template/ 并安装全局 rules/skills
+# 1. 首次安装：克隆仓库 + 全局 symlink
 ait install
 
-# 2. 按 profile 配置当前项目
-ait use <profile>
+# 2. 为项目应用 profile
+cd your-project
+ait use vue-admin
 
-# 3. 在新电脑上根据 .ai-rules.json 重建配置
+# 3. 换电脑后恢复
+ait install
+cd your-project
 ait sync
 ```
 
@@ -36,88 +37,146 @@ ait sync
 
 | 命令 | 说明 |
 |------|------|
-| `ait install` | 克隆仓库（或 pull 更新）并将全局 rules/skills 软链接到 `~/.claude/` |
-| `ait update` | 拉取仓库最新更改并显示变更文件列表 |
-| `ait use <profile>` | 按 profile 为当前项目安装 rules、skills、模板、MCP 配置 |
-| `ait sync` | 根据项目 `.ai-rules.json` 在新机器上重建所有资源链接 |
+| `ait install` | 克隆仓库到 `~/.ai-dev-template/`，全局 rules/skills 软链接到 `~/.claude/` |
+| `ait update` | `git pull` 更新仓库，显示变更文件 |
+| `ait use <profile>` | 按 profile 为当前项目安装全部资源（切换 profile 自动清理旧资源） |
+| `ait sync` | 根据 `.ai-rules.json` 重建所有资源链接 |
 | `ait add <name>` | 向当前项目单独添加一个资源 |
 | `ait remove <name>` | 从当前项目移除一个资源 |
-| `ait status` | 显示全局安装状态和当前项目资源状态 |
-| `ait list` | 列出仓库中所有可用资源（支持 `--type` / `--tag` 过滤） |
-| `ait show <name>` | 查看某个资源的详细信息和内容预览 |
-| `ait profiles` | 列出所有可用的 profile 及其包含的资源数量 |
+| `ait status` | 显示全局 + 项目级安装状态，检测断链 |
+| `ait list` | 列出所有资源（支持 `--type` / `--tag` 过滤） |
+| `ait show <name>` | 查看资源详情和内容预览 |
+| `ait profiles` | 列出所有可用 profile |
 
-## 兼容性
+### 资源类型与安装方式
 
-本仓库内容适配以下 AI 编码工具：
+| 类型 | 仓库路径 | 安装方式 | 说明 |
+|------|----------|----------|------|
+| Claude Rules | `rules/claude/` | symlink | 全局 → `~/.claude/rules/`，项目 → `.claude/rules/` |
+| Cursor Rules | `rules/cursor/` | symlink | 项目 → `.cursor/rules/` |
+| Skills | `skills/` | symlink | 全局 → `~/.claude/skills/`，项目 → `.claude/skills/` |
+| 模板 | `templates/` | copy | 复制到项目 `CLAUDE.md`（去除 frontmatter） |
+| MCP | `mcp/` | merge | 合并到项目 `.claude/mcp.json`（不覆盖已有配置） |
 
-- **Cursor**
-- **Claude Code**
+### Profile 示例
+
+```yaml
+# profiles/vue-admin.yaml
+name: vue-admin
+description: Vue 3 管理后台项目配置
+
+rules:
+  claude:
+    - vue-use-eui
+    - server-security
+    - git-security
+  cursor:
+    - tv-webview-vue
+
+skills:
+  - ui-ux-pro-max
+
+templates:
+  - nuxt-admin
+
+mcp:
+  - context7
+```
 
 ## 目录结构
 
 ```
 ai-dev-template/
-├── frontend/                          # 前端项目
-│   ├── tv/                            # TV 端
-│   │   ├── webview/vue/               # Web 套壳 + Vue 技术栈
-│   │   ├── native/                    # 原生开发 (Android TV Leanback, tvOS)
-│   │   └── reactnative/              # React Native for TV
-│   ├── mobile/                        # 移动端 (iOS, Android)
+├── rules/                             # AI 编码规则
+│   ├── claude/                        # Claude Code rules (.md)
+│   └── cursor/                        # Cursor rules (.mdc)
+├── skills/                            # Claude Code skills
+├── templates/                         # CLAUDE.md 项目模板
+├── mcp/                               # MCP 配置片段
+├── profiles/                          # Profile 组合配置
+├── cli/                               # ait CLI 工具源码 (Python + typer)
+├── frontend/                          # 前端项目模板
+│   ├── tv/webview/vue/                # Android TV WebView + Vue (Chromium 53)
 │   ├── admin/                         # 后台管理系统
-│   ├── landing/                       # 落地页 / 营销页
-│   ├── mini-program/                  # 小程序 (微信、支付宝、抖音)
-│   └── desktop/                       # 桌面端 (Electron, Tauri)
-├── backend/                           # 后端项目
-│   ├── python/                        # Python (FastAPI, Django, Flask)
-│   └── node/                          # Node.js (Express, NestJS, Nitro)
+│   ├── mobile/                        # 移动端
+│   ├── desktop/                       # 桌面端
+│   ├── landing/                       # 落地页
+│   └── mini-program/                  # 小程序
+├── backend/                           # 后端项目模板
+│   ├── python/                        # FastAPI / Django / Flask
+│   └── node/                          # Express / NestJS / Nitro
 ├── scripts/                           # 通用脚本工具
 ├── docs/                              # 学习笔记与方法论
-├── devops/                            # 部署运维 (Docker, CI/CD, Nginx)
-├── prompts/                           # Prompt 模板
-├── mcp/                               # MCP 配置模板
-└── skills/                            # Skills 配置模板
+├── devops/                            # 部署运维
+└── prompts/                           # Prompt 模板
 ```
 
-## 已有文档
+## 已有资源
 
-### TV 端 — WebView + Vue
+### Rules
 
-| 文件 | 格式 | 说明 |
+| 名称 | 类型 | 说明 |
 |------|------|------|
-| [`frontend/tv/webview/vue/cursor.mdc`](frontend/tv/webview/vue/cursor.mdc) | Cursor | Android TV WebView 开发规则与踩坑记录 |
-| [`frontend/tv/webview/vue/CLAUDE.md`](frontend/tv/webview/vue/CLAUDE.md) | Claude Code | Android TV WebView 开发规则与踩坑记录 |
+| `vue-use-eui` | claude-rule | Vue 项目统一使用 @danweiyuan/eui 组件库 |
+| `server-security` | claude-rule | 服务器安全部署规则 |
+| `git-security` | claude-rule | Git 提交安全规则 |
+| `python-code-style` | claude-rule | Python + FastAPI 代码规范 |
+| `tv-webview-vue` | cursor-rule | Android TV WebView 开发规则（Chromium 53 兼容） |
 
-### 后台管理
+### Skills / Templates / MCP
 
-| 文件 | 说明 |
-|------|------|
-| [`frontend/admin/nuxt-tech-selection.md`](frontend/admin/nuxt-tech-selection.md) | Nuxt.js 全栈管理后台技术选型方案 |
+| 名称 | 类型 | 说明 |
+|------|------|------|
+| `ui-ux-pro-max` | skill | AI 设计智能 Skill，100+ 行业推理规则 |
+| `tv-webview-vue` | template | Android TV WebView 项目 CLAUDE.md 模板 |
+| `nuxt-admin` | template | Nuxt.js 全栈管理后台技术选型模板 |
+| `context7` | mcp | Context7 文档查询服务 |
 
-### Skills
-
-| 文件 | 说明 |
-|------|------|
-| [`skills/ui-ux-pro-max.md`](skills/ui-ux-pro-max.md) | UI UX Pro Max — AI 设计智能 Skill，生成专业级 UI/UX 设计系统（配色、字体、风格、图表） |
-
-### 学习笔记
-
-| 文件 | 说明 |
-|------|------|
-| [`docs/ai-engineering-compound-growth.md`](docs/ai-engineering-compound-growth.md) | AI 工程化实践：从规范约束到复合增长（上下文工程、Subagent 架构、经验沉淀） |
-
-### 通用脚本
+### 经验文档
 
 | 文件 | 说明 |
 |------|------|
-| [`scripts/vue-build-deploy.py`](scripts/vue-build-deploy.py) | Vue 项目一键打包部署脚本（打包 → 压缩 → SSH 上传 → 备份 → 解压覆盖） |
+| [`docs/ai-engineering-compound-growth.md`](docs/ai-engineering-compound-growth.md) | AI 工程化实践：上下文工程、Subagent 架构、经验沉淀 |
 
-## 使用方式
+### 脚本
 
-1. 浏览对应的模板或经验文档
-2. 根据实际项目需求选用合适的方案
-3. 将模板内容适配到你的 AI 编码工具中（Cursor Rules、Claude CLAUDE.md 等）
+| 文件 | 说明 |
+|------|------|
+| [`scripts/vue-build-deploy.py`](scripts/vue-build-deploy.py) | Vue 项目一键打包部署（SSH 上传 + 备份 + 解压） |
 
-## 贡献
+## 添加新资源
 
-欢迎补充更多技术栈模板和经验文档，持续丰富知识库。
+所有资源文件需要 YAML frontmatter：
+
+```markdown
+---
+name: my-rule
+description: 规则描述
+type: claude-rule    # claude-rule | cursor-rule | skill | template | mcp
+tags: [tag1, tag2]
+version: 1.0.0
+author: your-name
+---
+
+正文内容...
+```
+
+MCP 配置使用 JSON `_meta` 字段：
+
+```json
+{
+  "_meta": {
+    "name": "my-mcp",
+    "description": "MCP 描述",
+    "type": "mcp",
+    "tags": ["tag1"],
+    "version": "1.0.0",
+    "author": "your-name"
+  },
+  "mcpServers": { ... }
+}
+```
+
+## 兼容性
+
+适配 **Cursor** 和 **Claude Code** 两套 AI 编码工具。
