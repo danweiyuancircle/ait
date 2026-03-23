@@ -16,6 +16,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `docs/` — 学习笔记与方法论
 - `skills/` — AI Skill 配置与说明文档
 - `devops/`、`prompts/`、`mcp/` — 占位目录，待填充
+- `rules/` — Claude Code 和 Cursor 规则文件（带 frontmatter 元数据）
+- `templates/` — CLAUDE.md 项目模板
+- `profiles/` — Profile 组合配置
+- `cli/` — ait CLI 工具源码（Python + typer）
 
 子目录内的 `CLAUDE.md` 和 `cursor.mdc` 是面向具体项目的开发规则，不要修改其内容风格。
 
@@ -40,4 +44,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Vue 部署脚本（需先安装 paramiko）
 pip install paramiko
 python scripts/vue-build-deploy.py --help
+
+# ait CLI（全局安装）
+cd cli && uv tool install .
+ait --help
 ```

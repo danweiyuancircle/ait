@@ -9,6 +9,44 @@ AI 辅助开发的知识复用仓库 —— 收录技术栈模板、Prompt、MCP
 - **MCP / Skills 配置**：可复用的 MCP Server 和 Skills 配置，快速搭建 AI 开发环境
 - **经验文档**：项目开发中遇到的问题和解决方案，避免重复踩坑
 
+## ait CLI
+
+`ait` 是本仓库配套的 AI 开发配置管理 CLI 工具，用于在多台机器和多个项目之间统一管理 rules、skills、MCP 配置和 CLAUDE.md 模板。
+
+### 安装
+
+```bash
+cd cli && uv tool install .
+```
+
+### 快速上手
+
+```bash
+# 1. 克隆仓库到 ~/.ai-dev-template/ 并安装全局 rules/skills
+ait install
+
+# 2. 按 profile 配置当前项目
+ait use <profile>
+
+# 3. 在新电脑上根据 .ai-rules.json 重建配置
+ait sync
+```
+
+### 命令速查
+
+| 命令 | 说明 |
+|------|------|
+| `ait install` | 克隆仓库（或 pull 更新）并将全局 rules/skills 软链接到 `~/.claude/` |
+| `ait update` | 拉取仓库最新更改并显示变更文件列表 |
+| `ait use <profile>` | 按 profile 为当前项目安装 rules、skills、模板、MCP 配置 |
+| `ait sync` | 根据项目 `.ai-rules.json` 在新机器上重建所有资源链接 |
+| `ait add <name>` | 向当前项目单独添加一个资源 |
+| `ait remove <name>` | 从当前项目移除一个资源 |
+| `ait status` | 显示全局安装状态和当前项目资源状态 |
+| `ait list` | 列出仓库中所有可用资源（支持 `--type` / `--tag` 过滤） |
+| `ait show <name>` | 查看某个资源的详细信息和内容预览 |
+| `ait profiles` | 列出所有可用的 profile 及其包含的资源数量 |
+
 ## 兼容性
 
 本仓库内容适配以下 AI 编码工具：
